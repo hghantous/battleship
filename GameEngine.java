@@ -187,7 +187,6 @@ public void createAndDisplayGUI(){
 		content = textField.getText();
 		fire = true;
 		textField.requestFocusInWindow();
-		textField.setEditable(false);
 		textField.setVisible(false);
 		FireButton.setVisible(false);
 		
