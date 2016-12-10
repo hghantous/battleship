@@ -73,8 +73,7 @@ System.out.println();
 	while((mylocations.size() !=0) || (hitcounter != 17)){
 		System.out.println("I'm in here #1");
 		if(!myturn){
-			GameEngine.textField.setEditable(false);
-			GameEngine.textField.setText("Waiting For Opponent");
+			GameEngine.FireButton.setVisible(false);
 
 			System.out.println("I'm in here #2 because Im 2");
 
@@ -86,12 +85,13 @@ System.out.println();
 				hitrecievedvalue = Integer.parseInt(hitR);
 				hitrecieved = true;
 			}
+			GameEngine.FireButton.setVisible(true);
+
 			while(!hitrecieved){
 				Thread.sleep(1000);
 			}
 			
-			GameEngine.textField.setEditable(true);
-			GameEngine.textField.setText("Enter Coordinates");
+
 			System.out.println("I'm in here #3 I got a hit");
 
 			System.out.println("hitrecievedvalue" + hitrecievedvalue);
@@ -140,7 +140,7 @@ System.out.println();
 		String hit = in.readUTF();
         hit = hit.replaceAll("[^A-Z]","");
 
-		System.out.println(hit);
+		System.out.println(hit + "here I'm printing");
 		if(hit.equals("HIT")){
 			hitconnected = true;
 			GameEngine.buttonF[realhit].setBackground(Color.RED);

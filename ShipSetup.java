@@ -29,27 +29,24 @@ public class ShipSetup extends GameEngine{
 	
 	static int counteruser = 0;
 	
+	static String hitme = "mexxx";
 	public static String removeShip(int location){
-		String hitme = "xxx";
-		if(counteruser == 0){
-		if(intList.contains(location)){
-			System.out.println(Arrays.toString(intList.toArray()));
-			hitme = "HIT";
+		if(ran_through_me == false){
+			if(intList.contains(location)){
+				System.out.println(Arrays.toString(intList.toArray()));
+				hitme = "HIT";
 			
-			System.out.println("HIT");
+				System.out.println("HIT");
 			
-			intList.remove(new Integer(location));
-			System.out.println(Arrays.toString(intList.toArray()));
-			ran_through_me = true;
-		}else{
-			if(ran_through_me == false){
+				intList.remove(new Integer(location));
+				System.out.println(Arrays.toString(intList.toArray()));
+				ran_through_me = true;
+			}else{
+				System.out.println("MISS");
 				hitme = "MISS";
-			System.out.println("MISS");
+				ran_through_me = true;
 			}
-		}	
-		counteruser++;
-		}else{
-			counteruser = 0;
+		}else if(ran_through_me == true){
 			ran_through_me = false;
 		}
 		
@@ -57,7 +54,6 @@ public class ShipSetup extends GameEngine{
 	}
 	static boolean ran_through_me = false;
 	static boolean ran_through_enemy = false;
-	static int counterenemy = 0;
 
 	static String hitmeenemy = "enemeyxxx";
 
