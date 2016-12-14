@@ -62,7 +62,7 @@ boolean Result = false;
         scrollPane.setOpaque( false );
         scrollPane.getViewport().setOpaque( false );
 
-        final ImageIcon icon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\LeaderBoardImage.jpg");
+        final ImageIcon icon = new ImageIcon("LeaderBoardImage.jpg");
 
         JPanel background = new JPanel( new BorderLayout() )
         {
@@ -101,11 +101,11 @@ boolean Result = false;
 			
 		}
 		
-	public void GetLeaderBoardValues() 
+	public static void GetLeaderBoardValues() 
 		{
 		try 
 			{
-				FileReader File = new FileReader("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\LeaderBoard.txt");
+				FileReader File = new FileReader("LeaderBoard.txt");
 				BufferedReader Reader = new BufferedReader(File);
 				String text = "";
 				String line = Reader.readLine();
@@ -155,7 +155,7 @@ boolean Result = false;
 	
 	public static void OverWriteLeaderBoardValues()
 	{
-		File OverWrite = new File("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\LeaderBoard.txt");
+		File OverWrite = new File("LeaderBoard.txt");
 		String append; 
 		
 		try
@@ -337,10 +337,10 @@ public static void main(String[] args) throws Exception {
 			{
 				public void run()
 				{
-					new LeaderBoard().CreateLeaderBoard();
+					//new LeaderBoard().CreateLeaderBoard();
 									
-	System.out.println(returnLeaderBoard);
-	}
+					System.out.println(returnLeaderBoard());
+				}
 
 			});
 	 
