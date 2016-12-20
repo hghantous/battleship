@@ -131,7 +131,7 @@ public void createAndDisplayGUI()
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
         JPanel buttonLeftPanel = new JPanel();
         
-        ImageIcon ACImage = new ImageIcon("New Aircraft.jpg");
+        ImageIcon ACImage = new ImageIcon("");
         final JLabel ACPic = new JLabel(ACImage);
         ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
         //ACPic.setBounds(1165,70,220,20);
@@ -139,27 +139,27 @@ public void createAndDisplayGUI()
        
    
         
-        ImageIcon BSImage = new ImageIcon("New battleship.jpg");
+        ImageIcon BSImage = new ImageIcon("");
         final JLabel BSPic = new JLabel(ACImage);
         BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
         //BSPic.setBounds(1165,115,180,20);
         contentPane.add(BSPic);
      
         
-        ImageIcon SUBImage = new ImageIcon("New Submarine.jpg");
+        ImageIcon SUBImage = new ImageIcon("");
         final JLabel SUBPic = new JLabel(SUBImage);
         SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //SUBPic.setBounds(1160,165,130,20);
         contentPane.add(SUBPic);
         
         
-        ImageIcon CImage = new ImageIcon("New Cruiser.jpg");
+        ImageIcon CImage = new ImageIcon("");
         final JLabel CPic = new JLabel(CImage);
         CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //CPic.setBounds(1165,215,130,20);
         contentPane.add(CPic);
         
-        ImageIcon DImage = new ImageIcon("New Destroyer.jpg");
+        ImageIcon DImage = new ImageIcon("");
         final JLabel DPic = new JLabel(DImage);
         DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
         //DPic.setBounds(1165,270,75,20);
