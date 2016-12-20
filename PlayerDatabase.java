@@ -77,7 +77,6 @@ public class PlayerDatabase {
 		for (Player u : players) {
 			if ((u.getUser() != null && u.getUser().equals(user))) {
 				added = false;
-				System.out.println("Kill me");
 			}
 		}
 		if (added) {

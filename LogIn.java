@@ -113,7 +113,7 @@ public class LogIn extends JFrame {
 						userField.setText("");
 						passwordField.setText("");
 						userField.requestFocus();
-					    JOptionPane.showMessageDialog(null,"Wrong Username / Password","ERROR", 2);
+					    JOptionPane.showMessageDialog(null,"ERROR SIGNING IN","ERROR", 2);
 
 					}
 					

@@ -1,5 +1,8 @@
 import java.net.*;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.io.*;
 
@@ -25,7 +28,7 @@ public class Client {
 	public static void main(String[] args) throws Exception {// run
 		System.out.println("Connecting...");// connecting
 		Thread.sleep(1000);
-		socket = new Socket("104.196.169.95", 3389);// 104.196.169.95/sets socket to
+		socket = new Socket("localhost", 3389);// 104.196.169.95/sets socket to
 												// ipaddress and port
 		System.out.println("Connection Successful");// print it connected
 		Thread.sleep(1000);
@@ -37,13 +40,10 @@ public class Client {
 		System.out.println("Launching FleetDestroyer...");
 		InitialScreen.main(null);
 		
-		System.out.println("here first");
 		while (!signedIn) {
 			Thread.sleep(1000);
 		}
-		System.out.println("here second");
 		String LeaderBoardRecieved = in.readUTF();
-		System.out.println("Leaderboard is here!" + LeaderBoardRecieved);
 		Player.setLeaderBoard(LeaderBoardRecieved);
 		
 		out.writeUTF(Player.getCurrentUser());
@@ -61,12 +61,10 @@ public class Client {
 			Thread.sleep(1000);
 		}
 
-		// System.out.println(GameEngine.getFinalCoordinates());
 		out.writeUTF(GameEngine.getFinalCoordinates());
 
 		
 		playernumber = in.readUTF();
-		System.out.println("PLayer number is: " + playernumber);
 
 		
 		boolean setMatch = false;
@@ -77,21 +75,17 @@ public class Client {
 			}
 			Thread.sleep(1000);
 		}
-		System.out.println("we matched!");
 		
 
 
 		check_which_player(playernumber);
 
-		// System.out.println("my number is " + playernumber);
 
 		ShipSetup.setUserShips(GameEngine.getFinalCoordinates(),1);
 		mylocations = ShipSetup.intList;
 
-		System.out.println("my ships are " + mylocations);
 
 		while ((mylocations.size() != 0) && (hitcounter != 17) && (enemyhitcounter !=17) ) {
-			System.out.println("I'm in here #1");
 			while (!myturn) {
 				GameEngine.FireButton.setVisible(false);
 
@@ -174,9 +168,9 @@ public class Client {
 
 	public static void gameStatus() {
 		if (mylocations.size() == 0) {
-			System.out.println("You Lost!");
+		    JOptionPane.showMessageDialog(null,"You Lost!","Match Result()", 2);
 		} else if (hitcounter == 17) {
-			System.out.println("You Won!");
+		    JOptionPane.showMessageDialog(null,"You Won!","Match Result()", 2);
 		}
 
 		GameEngine.textField.setVisible(false);
@@ -195,7 +189,6 @@ public class Client {
 			out.writeUTF(p);
 		} catch (IOException e) {
 		}
-		System.out.println(u + "   " + p);
 	}
 
 	public static boolean recieveConfirmation() {
@@ -209,7 +202,6 @@ public class Client {
 		} else {
 			signedIn = false;
 		}
-		System.out.println("Confirmation: " + signedIn);
 		return signedIn;
 	}
 	

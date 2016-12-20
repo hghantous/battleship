@@ -926,7 +926,7 @@ RandomizeShips.addActionListener(new ActionListener()
 		public void actionPerformed(ActionEvent event)
 			{
 			content = textField.getText();
-			System.out.print(content);
+			//System.out.print(content);
 			}
 		});
 		
@@ -1751,12 +1751,12 @@ public JPanel displayChat() {
 		public void focusGained(FocusEvent e) {
 			messageField.setText("");
 			messageField.setFont(new Font("Serif", Font.PLAIN, 20));
-			System.out.print("gained");
+			//System.out.print("gained");
       }
       public void focusLost(FocusEvent e) {
     	  messageField.setText("Send Message");
     	  messageField.setFont(new Font("Serif", Font.ITALIC,20));
-    	  System.out.print("lost");
+    	 // System.out.print("lost");
     	  
       }});
     

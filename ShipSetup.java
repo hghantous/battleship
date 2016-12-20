@@ -78,12 +78,6 @@ public class ShipSetup extends GameEngine{
     }
 	
 	public static void setUserShips(String shiplocations, int userNumber){
-		System.out.println("user number recieved is: " + userNumber);
-		System.out.println("user number recieved is: " + userNumber);
-		System.out.println("user number recieved is: " + userNumber);
-		System.out.println("user number recieved is: " + userNumber);
-		System.out.println("user number recieved is: " + userNumber);
-		System.out.println("user number recieved is: " + userNumber);
 		playernumber = userNumber;
 	
         String fleet[] = shiplocations.split(" ");
@@ -100,10 +94,10 @@ public class ShipSetup extends GameEngine{
         setDestroyer(dxy);        
         
 			if(playernumber == 1){
-		        System.out.println("Here " + Arrays.toString(intList.toArray()));
+		        System.out.println("Player One " + Arrays.toString(intList.toArray()));
 
 			}else if(playernumber == 2){
-		        System.out.println("Enemy " + Arrays.toString(intListEnemy.toArray()));
+		        System.out.println("Player Two " + Arrays.toString(intListEnemy.toArray()));
 			}
 	}
 	

@@ -9,7 +9,7 @@ public class Server extends Client {
 	static DataOutputStream out;
 	static DataInputStream in;
 
-	static Users[] user = new Users[2];
+	static Users[] user = new Users[10];
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Starting FleetDestroyer Server...");
@@ -20,7 +20,7 @@ public class Server extends Client {
 		resetLoggedInPlayers();
 		while (true) {
 			socket = serverSocket.accept();
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 10; i++) {
 
 				System.out.println("Connection from: " + socket.getInetAddress());
 				out = new DataOutputStream(socket.getOutputStream());
@@ -50,7 +50,7 @@ class Users implements Runnable {
 
 	DataOutputStream out;
 	DataInputStream in;
-	Users[] user = new Users[2];
+	Users[] user = new Users[10];
 	String name;
 	String shiplocations;
 
@@ -75,7 +75,6 @@ class Users implements Runnable {
 			try {
 				username = in.readUTF();
 				password = in.readUTF();
-				System.out.println(username + "   " + password);
 
 			} catch (IOException e) {
 			}
@@ -88,7 +87,6 @@ class Users implements Runnable {
 					out.writeUTF("Login Confirmed!");
 					
 					String values = LeaderBoard.returnLeaderBoard();
-					System.out.println(values);
 					out.writeUTF(values);
 				} catch (IOException e) {
 				}
@@ -103,7 +101,6 @@ class Users implements Runnable {
 
 		}
 		
-		System.out.println("we made it out");
 		
 		
 		try {
@@ -123,12 +120,6 @@ class Users implements Runnable {
 			playerNumber = 1;
 			try {
 				out.writeUTF("1");
-				System.out.println("we sent out");
-				
-
-
-				System.out.println("Shiplocations are: " + shiplocations);
-				System.out.println("PlayerNumber are: " + playerNumber);
 				
 				ShipSetup.setUserShips(shiplocations,playerNumber);
 				
@@ -140,12 +131,6 @@ class Users implements Runnable {
 			playerNumber = 2;
 			try {
 				out.writeUTF("2");
-				System.out.println("we sent out again");
-				
-
-
-				System.out.println("Shiplocations are: " + shiplocations);
-				System.out.println("PlayerNumber are: " + playerNumber);
 				
 				ShipSetup.setUserShips(shiplocations,playerNumber);
 			} catch (IOException e) {}
@@ -156,22 +141,11 @@ class Users implements Runnable {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {}
 		}
-		System.out.println("We got two");
 		
 		try {
 			out.writeUTF("MatchSet");
 		} catch (IOException e2) {}
 
-		System.out.println("We sent the matchset");
-
-	
-
-		
-
-
-		System.out.println("Shiplocations are: " + shiplocations);
-		System.out.println("PlayerNumber are: " + playerNumber);
-		System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
 
 		String tempwords = "";
 		int hitmarker = 0;
@@ -183,12 +157,12 @@ class Users implements Runnable {
 				String message;
 				try {
 					message = in.readUTF();
-					System.out.println("the hit I recieved initially is: " + message);
+					//System.out.println("the hit I recieved initially is: " + message);
 
 					String command = message.substring(0, 1);
-					System.out.println("The command is: " + command);
+					//System.out.println("The command is: " + command);
 					message = message.substring(1, message.length());
-					System.out.println("The message therefore is: " + message);
+					//System.out.println("The message therefore is: " + message);
 
 					if (command.equals("1")) {
 						playernumber = 1;
@@ -205,7 +179,7 @@ class Users implements Runnable {
 				ShipSetup.gameOver();
 
 			}
-			System.out.println("GAME OVER OKAY");
+			System.out.println("GAME OVER");
 			break;
 		}
 	}
@@ -258,7 +232,7 @@ class Users implements Runnable {
 			if (user[i] != null) {
 
 				System.out.println(
-						"An attack was launched by " + user[playernumber - 1].name + " at: " + tempwords + "!");
+						"An attack was launched by " + user[playernumber - 1].name + " at: " + hitmarker + "!");
 
 				user[i].out.writeUTF(tempwords + "" + hitmarker);
 				user[i].out.flush();
