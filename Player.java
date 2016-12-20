@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 /**
  * Fake Player Class
@@ -5,7 +7,7 @@
 public class Player{
 
     String username,password;
-	static String currentUser,currentOpponent;
+	static String currentUser;
     public Player(){
     	username = null;
     	password = null;
@@ -27,12 +29,6 @@ public class Player{
     	return currentUser;
     }
     
-    public static void setCurrentOpponent(String copp){
-    	Player.currentOpponent = copp;
-    }
-    public static String getCurrentOpponent(){
-    	return currentOpponent;
-    }
     public void setPassword(String pass){
         this.password = pass;
     }
@@ -46,7 +42,17 @@ public class Player{
         return password;
     }
     
-    
+    public static void setLeaderBoard(String values){
+    	PrintWriter writer;
+    		try {
+    			writer = new PrintWriter("LeaderBoard.txt");
+    			writer.write(values);
+    			writer.close();
+    		} catch (FileNotFoundException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     
     	 public String toString() {
     	        return ("Username: "+this.getUser()+

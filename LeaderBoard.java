@@ -1,18 +1,14 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.Frame;
 import java.util.Arrays;
-import java.util.Scanner;
 import javax.swing.*;
 import java.io.*;
-import java.awt.Color;
 import javax.swing.table.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.*;
 
 
 
+@SuppressWarnings("serial")
 public class LeaderBoard extends JPanel
 {
 static String text = "";
@@ -85,8 +81,6 @@ boolean Result = false;
 			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
 			SortLeaderBoardValues(LeaderBoardArray);
 			
-			JPanel panel = new JPanel();
-
 			JFrame frame = new JFrame("LeaderBoard");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.add(new LeaderBoard());
@@ -109,7 +103,7 @@ boolean Result = false;
 				BufferedReader Reader = new BufferedReader(File);
 				String text = "";
 				String line = Reader.readLine();
-				while (line!= null) //While End of File. Grab Each Line of Text and send it to the method SetLeaderBoardValues
+				while (LineCount!= 5) //While End of File. Grab Each Line of Text and send it to the method SetLeaderBoardValues
 					{
 						text= line;
 						SetLeaderBoardValues(text,LineCount);
@@ -180,7 +174,7 @@ boolean Result = false;
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}           
 	}
 
@@ -337,9 +331,9 @@ public static void main(String[] args) throws Exception {
 			{
 				public void run()
 				{
-					//new LeaderBoard().CreateLeaderBoard();
+					new LeaderBoard().CreateLeaderBoard();
 									
-					System.out.println(returnLeaderBoard());
+					//System.out.println(returnLeaderBoard());
 				}
 
 			});

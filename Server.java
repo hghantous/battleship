@@ -1,177 +1,267 @@
 import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import java.awt.Color;
+import java.util.Scanner;
 import java.io.*;
 
-public class Server extends Client{
+public class Server extends Client {
 
 	static ServerSocket serverSocket;
 	static Socket socket;
 	static DataOutputStream out;
 	static DataInputStream in;
 
-	
-
 	static Users[] user = new Users[2];
-	
-	public static void main(String[] args) throws Exception{		
-		System.out.println("Starting Server...");
+
+	public static void main(String[] args) throws Exception {
+		System.out.println("Starting FleetDestroyer Server...");
 		serverSocket = new ServerSocket(3389);
 		Thread.sleep(1000);
-		System.out.println("Server Started");
-		while(true){
-		socket = serverSocket.accept();
-		for(int i = 0; i < 2; i++){
-			
-		System.out.println("Connection from: " + socket.getInetAddress());
-		out = new DataOutputStream(socket.getOutputStream());
-		in = new DataInputStream(socket.getInputStream());
-		if(user[i] == null){
-			user[i] = new Users(out,in,user);
-		Thread thread = new Thread(user[i]);
-		thread.start();
-		break;
-		
-		}
-		}
-	
+		System.out.println("FleetDestroyer Server Started");
+		PlayerDatabase.initializedb();
+		resetLoggedInPlayers();
+		while (true) {
+			socket = serverSocket.accept();
+			for (int i = 0; i < 2; i++) {
+
+				System.out.println("Connection from: " + socket.getInetAddress());
+				out = new DataOutputStream(socket.getOutputStream());
+				in = new DataInputStream(socket.getInputStream());
+				if (user[i] == null) {
+					user[i] = new Users(out, in, user);
+					Thread thread = new Thread(user[i]);
+					thread.start();
+					break;
+				}
+			}
 		}
 	}
-	
 
-	
+	public static void resetLoggedInPlayers() {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("loggedinplayers");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			
+		}
+	}
 }
-class Users implements Runnable{
 
+class Users implements Runnable {
 
 	DataOutputStream out;
 	DataInputStream in;
 	Users[] user = new Users[2];
 	String name;
 	String shiplocations;
-	
+
 	static int loggers = 0;
-	static String playerone  = "";
-	static String playertwo = "" ;
+	static String playerone = "";
+	static String playertwo = "";
 	static boolean p1turn = true;
 	static boolean changed = false;
-	
-	public Users(DataOutputStream out, DataInputStream in, Users[] user){
+	static String username = "";
+	static String password = "";
+	static int playerNumber;
+
+	public Users(DataOutputStream out, DataInputStream in, Users[] user) {
 		this.out = out;
 		this.in = in;
 		this.user = user;
 	}
 
 	public void run() {
-		try {
-		 name = in.readUTF();
-		} catch (IOException e1) {
-			//e1.printStackTrace();
+		boolean LogIn = false;
+		while (!LogIn) {
+			try {
+				username = in.readUTF();
+				password = in.readUTF();
+				System.out.println(username + "   " + password);
+
+			} catch (IOException e) {
+			}
+
+			boolean found = PlayerDatabase.runme(username, password);
+
+			if (found && !alreadyLoggedIn(username)) {
+				loggingin(username);
+				try {
+					out.writeUTF("Login Confirmed!");
+					
+					String values = LeaderBoard.returnLeaderBoard();
+					System.out.println(values);
+					out.writeUTF(values);
+				} catch (IOException e) {
+				}
+				LogIn = true;
+			} else if ((!found) || alreadyLoggedIn(username)) {
+				try {
+					out.writeUTF("Invalid Login");
+				} catch (IOException e) {
+				}
+				LogIn = false;
+			}
+
 		}
+		
+		System.out.println("we made it out");
+		
+		
+		try {
+			name = in.readUTF();
+		} catch (IOException e1) {
+		}
+		
 		try {
 			shiplocations = in.readUTF();
-			} catch (IOException e1) {
-				//e1.printStackTrace();
-			}
-
-		if(loggers == 0){
-			playerone = name;
-			try {
-				out.writeUTF("1");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			loggers++;	
-		}else if(loggers == 1){
-			playertwo = name;
-			try {
-				out.writeUTF("2");
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//loggers++;
+		} catch (IOException e1) {
 		}
 		
+			
 		
-		System.out.println(shiplocations);
-		ShipSetup.setUserShips(shiplocations);
+		if (loggers == 0) {
+			playerone = name;
+			playerNumber = 1;
+			try {
+				out.writeUTF("1");
+				System.out.println("we sent out");
+				
+
+
+				System.out.println("Shiplocations are: " + shiplocations);
+				System.out.println("PlayerNumber are: " + playerNumber);
+				
+				ShipSetup.setUserShips(shiplocations,playerNumber);
+				
+				
+			} catch (IOException e) {}
+			loggers++;
+		} else if (loggers == 1) {
+			playertwo = name;
+			playerNumber = 2;
+			try {
+				out.writeUTF("2");
+				System.out.println("we sent out again");
+				
+
+
+				System.out.println("Shiplocations are: " + shiplocations);
+				System.out.println("PlayerNumber are: " + playerNumber);
+				
+				ShipSetup.setUserShips(shiplocations,playerNumber);
+			} catch (IOException e) {}
+			loggers++;
+		}
+		while(loggers < 2){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
+		System.out.println("We got two");
+		
+		try {
+			out.writeUTF("MatchSet");
+		} catch (IOException e2) {}
+
+		System.out.println("We sent the matchset");
+
+	
+
+		
+
+
+		System.out.println("Shiplocations are: " + shiplocations);
+		System.out.println("PlayerNumber are: " + playerNumber);
 		System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
 
 		String tempwords = "";
-		int hitmarker;
-		
-		while(true){
-			while(!ShipSetup.gameover){
-			try {
-				String message = in.readUTF();
-				
-				if(p1turn){
-				for(int i = 0; i < 2; i++){
-					if(user[i] != null){
-						if(name.equals(playertwo)){
-						    //JOptionPane.showMessageDialog(null,playerone + "'s turn currently, not " + playertwo + "!","ERROR", 0);
+		int hitmarker = 0;
+		int playernumber = 0;
 
-							user[i].out.writeUTF(playerone + "'s turn currently, not " + playertwo + "!");
-							changed = true;
-						}else{
-						  //  JOptionPane.showMessageDialog(null,name + ":(p1's turn) Message Here: " + message,"ERROR", 0);
+		while (true) {
+			while (!ShipSetup.gameover) {
+				// try {
+				String message;
+				try {
+					message = in.readUTF();
+					System.out.println("the hit I recieved initially is: " + message);
 
-						//user[i].out.writeUTF(name + ":(p1's turn) Message Here: " + message);
-						
-						hitmarker = ShipSetup.getRealHit(message);
-						tempwords = ShipSetup.removeEnemyShip(hitmarker);
-	
-						System.out.println(tempwords);
-						user[i].out.writeUTF(tempwords + "" + hitmarker);
+					String command = message.substring(0, 1);
+					System.out.println("The command is: " + command);
+					message = message.substring(1, message.length());
+					System.out.println("The message therefore is: " + message);
 
-						//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
-						}
+					if (command.equals("1")) {
+						playernumber = 1;
+						sendHit(tempwords, hitmarker, playernumber, message);
 					}
-				}
-				if(!changed){
-				p1turn = false;
-				}
-				changed = false;
-				
-				}else if(!p1turn){
-					for(int i = 0; i < 2; i++){
-						if(user[i] != null){
-							if(name.equals(playerone)){
-								user[i].out.writeUTF(playertwo + "'s turn currently, not " + playerone + "!");
-								changed = true;
-							}else{
-								//user[i].out.writeUTF(name + ":(p2's turn) Message Here: " + message);
-							
-								hitmarker = ShipSetup.getRealHit(message);
-								tempwords = ShipSetup.removeShip(hitmarker);
-								
-								System.out.println("xxx" + tempwords);
-
-								user[i].out.writeUTF(tempwords + "" + hitmarker);
-
-
-							//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
-
-						}
+					if (command.equals("2")) {
+						playernumber = 2;
+						sendHit(tempwords, hitmarker, playernumber, message);
 					}
+				} catch (IOException e) {
+					// System.out.println("ERROR");
 				}
-				if(!changed){
-					p1turn = true;
-				}
-					changed = false;
-				}
+
 				ShipSetup.gameOver();
-			} 
-			catch (IOException e) {
+
 			}
+			System.out.println("GAME OVER OKAY");
+			break;
+		}
+	}
+
+	public static void loggingin(String name) {
+		String username = name;
+		FileWriter writer;
+		try {
+			writer = new FileWriter("loggedinplayers", true);
+			writer.write(username + "\n");
+			writer.close();
+		} catch (IOException e) {
+		}
+	}
+
+	public static boolean alreadyLoggedIn(String name) {
+		boolean loggedin = false;
+		String username = name;
+		File file = new File("loggedinplayers");
+		Scanner scan;
+		try {
+			scan = new Scanner(file);
+
+			while (scan.hasNext()) {
+				String line = scan.next();
+				if (line.equals(username)) {
+					loggedin = true;
+				}
+			}
+			scan.close();
+
+		} catch (FileNotFoundException e) {
+			
+		}
+
+		return loggedin;
+	}
+
+	public void sendHit(String tempwords, int hitmarker, int playernumber, String message) throws IOException {
+		
+		hitmarker = Integer.parseInt(message);
+		if (playernumber == 1) {
+			tempwords = ShipSetup.removeEnemyShip(hitmarker);
+		}
+		if (playernumber == 2) {
+			tempwords = ShipSetup.removeShip(hitmarker);
+		}
+		
+		for (int i = 0; i < 2; i++) {
+			if (user[i] != null) {
+
+				System.out.println(
+						"An attack was launched by " + user[playernumber - 1].name + " at: " + tempwords + "!");
+
+				user[i].out.writeUTF(tempwords + "" + hitmarker);
+				user[i].out.flush();
 			}
 		}
 	}

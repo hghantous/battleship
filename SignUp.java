@@ -4,23 +4,26 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public  class SignUp extends JFrame{
 	static Player currentUser = new Player();
 	public static void main(String[] args) {
 		SignUp signup = new SignUp();
+		signup.setLocationRelativeTo(null);
+
 	}
 	
 	JButton signupButton = new JButton("Sign Up");
 	JPanel signupScreen = new JPanel();
 	JTextField newuserField = new JTextField();
 	JPasswordField newpasswordField = new JPasswordField();
-	GridLayout experimentLayout = new GridLayout(0,1);
+	FlowLayout experimentLayout = new FlowLayout();
 	JLabel newloginLabel = new JLabel("Username: ");
 	JLabel newpasswordLabel = new JLabel("Password: ");
 
 	SignUp(){
 		super("User Authenticication");
-		setSize(300,200);
+		setSize(600,600);
 		super.setLocationRelativeTo(null);
 
 		signupScreen.setLayout(experimentLayout);
@@ -42,6 +45,7 @@ public  class SignUp extends JFrame{
 			signupButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					String username = newuserField.getText().toLowerCase();
+					@SuppressWarnings("deprecation")
 					String password = newpasswordField.getText();
 					boolean found = false;
 			         

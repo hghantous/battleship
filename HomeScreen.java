@@ -1,49 +1,135 @@
-    import javax.swing.*;
-	import java.awt.*;
-	import java.awt.event.*;
+import java.awt.Color;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import javax.sound.sampled.*;
 
 
-	public class HomeScreen extends JFrame {
-		public static void main(String[] args) {
-			HomeScreen ourGUI = new HomeScreen();
-		}
+@SuppressWarnings("serial")
+public class HomeScreen extends JFrame {
+    public static void main(String[] args) {
+        new HomeScreen();
+		Music();
+    }
+     
+    private Image image;
+	JButton GameStart = new JButton("Start Game");
+	JButton LeaderBoardB = new JButton("Leaderboard");
+	JButton Options = new JButton("Options");
+	JButton Help = new JButton("Help");
+	JButton Chat = new JButton("Chat");
+	
+     
+    public HomeScreen() {
+        image = new ImageIcon("homescreen.jpg").getImage();
+        
+        JPanel container = new MyBackground();
+		container.setLayout(null);
+		
+		GameStart.setBounds(200,51,200,100);
+		GameStart.setOpaque(false);
+		GameStart.setContentAreaFilled(false);
+		GameStart.setBorderPainted(true);
+		GameStart.setFont(new Font("Serif", Font.BOLD, 24));
+		GameStart.setForeground(Color.WHITE);
+		GameStart.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
+		
+		LeaderBoardB.setBounds(200,151,200,100);
+		LeaderBoardB.setOpaque(false);
+		LeaderBoardB.setContentAreaFilled(false);
+		LeaderBoardB.setBorderPainted(true);
+		LeaderBoardB.setFont(new Font("Serif", Font.BOLD, 24));
+		LeaderBoardB.setForeground(Color.WHITE);
+		LeaderBoardB.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+		
+		Chat.setBounds(200,251,200,100);
+		Chat.setOpaque(false);
+		Chat.setContentAreaFilled(false);
+		Chat.setBorderPainted(true);
+		Chat.setFont(new Font("Serif", Font.BOLD, 24));
+		Chat.setForeground(Color.WHITE);
+		Chat.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));	
+
+		Options.setBounds(200,351,200,100);
+		Options.setOpaque(false);
+		Options.setContentAreaFilled(false);
+		Options.setBorderPainted(true);
+		Options.setFont(new Font("Serif", Font.BOLD, 28));
+		Options.setForeground(Color.WHITE);
+		Options.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));	
+        
+		Help.setBounds(200,451,200,100);
+		Help.setOpaque(false);
+		Help.setContentAreaFilled(false);
+		Help.setBorderPainted(true);
+		Help.setFont(new Font("Serif", Font.BOLD, 24));
+		Help.setForeground(Color.WHITE);
+		Help.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+		
+		add(container);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    	super.setLocationRelativeTo(null);
+        setSize(600, 600);
+    	super.setLocationRelativeTo(null);
+		container.add(GameStart);
+		container.add(LeaderBoardB);
+		container.add(Chat);
+		container.add(Options);
+		container.add(Help);
+        setVisible(true);
+		setResizable(false);
+		
+		GameStartEvent();
+		LeaderBoardEvent();
+		ChatEvent();
+		OptionsEvent();
+		HelpEvent();
+    }
+	public class MyBackground extends JPanel {
+        public MyBackground() {
+            setBackground(new Color(0, true));
+        }
+        @Override
+        public void paintComponent(Graphics g) {
+            //Paint background first
+            g.drawImage (image, 0, 0, getWidth (), getHeight (), this);
+            //Paint the rest of the component. Children and self etc.
+            super.paintComponent(g);
+        }
+    }
+	
+	public static void Music(){
+				try {
+				File Music = new File("Background.wav");
+				 AudioInputStream audioIn = AudioSystem.getAudioInputStream(Music);
+				 Clip clip = AudioSystem.getClip();
+				 clip.open(audioIn);
+				 clip.loop(5);
+				 
+				 }
+				 
+				 catch (UnsupportedAudioFileException e) {
+					 e.printStackTrace();
+				  } catch (IOException e) {
+					 e.printStackTrace();
+				  } catch (LineUnavailableException e) {
+					 e.printStackTrace();
+				  }
 				
-				JButton GameStart = new JButton("Start Game");
-				JButton LeaderBoard = new JButton("Leaderboard");
-				JButton Options = new JButton("Options");
-				JButton Help = new JButton("Help");
-						
-				JPanel HomeScreen = new JPanel();
-				
-				GridLayout experimentLayout = new GridLayout(0,1);
-
-				HomeScreen(){
-					super("Welcome " + Player.getCurrentUser() + "!");
-					setSize(300,200);
-					super.setLocationRelativeTo(null);
-
-					HomeScreen.setLayout(experimentLayout);
-					
-					HomeScreen.add(GameStart);
-					HomeScreen.add(LeaderBoard);
-					HomeScreen.add(Options);
-					HomeScreen.add(Help);
-
-
-					getContentPane().add(HomeScreen);
-					setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					setVisible(true);
-					setResizable(true);
-					
-					GameStartEvent();
-					LeaderBoardEvent();
-					OptionsEvent();
-					HelpEvent();
-					
-				}
-				
+			}
+			
+		
 				public void GameStartEvent(){
 					GameStart.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent enter) {
@@ -54,9 +140,10 @@ import java.util.*;
 							    Scanner scanner = new Scanner(file);
 							    int lineNum = 0;
 							    while (scanner.hasNextLine()) {
-							        String line = scanner.nextLine();
+							        scanner.nextLine();
 							        lineNum++;
 							        }
+							    scanner.close();
 							    if(lineNum > 1){							
 							    	GameEngine.main(null);
 							    	dispose();
@@ -71,14 +158,25 @@ import java.util.*;
 					
 				});
 			}
-
 				public void LeaderBoardEvent(){
-					LeaderBoard.addActionListener(new ActionListener(){
+					LeaderBoardB.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent leaderboard) {
-						    JOptionPane.showMessageDialog(null,"System Under Construction","ERROR #404", 2);
+							try {
+								LeaderBoard.main(null);
+							} catch (Exception e) {}
+					    	dispose();
 						}
 					});
 				}
+				public void ChatEvent(){
+					Chat.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent options) {
+						try {
+							ChatClient.main(null);
+						} catch (Exception e) {}
+						}		
+					});
+				}			
 				public void OptionsEvent(){
 					Options.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent options) {
@@ -89,7 +187,7 @@ import java.util.*;
 				public void HelpEvent(){
 					Help.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent help) {
-						    JOptionPane.showMessageDialog(null,"System Under Construction","ERROR #404", 2);
+							HelpScreen.main(null);
 						}
 					});
 				}	
