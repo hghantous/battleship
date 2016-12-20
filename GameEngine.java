@@ -127,12 +127,12 @@ public void createAndDisplayGUI()
       //  Music();
 		contentPane.setLayout(null);
 		contentPane.setPreferredSize(new Dimension (1700,700));
-		JPanel leftPanel = new JPanel();
+		final JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
         JPanel buttonLeftPanel = new JPanel();
         
         ImageIcon ACImage = new ImageIcon("New Aircraft.jpg");
-        JLabel ACPic = new JLabel(ACImage);
+        final JLabel ACPic = new JLabel(ACImage);
         ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
         //ACPic.setBounds(1165,70,220,20);
        contentPane.add(ACPic);
@@ -140,27 +140,27 @@ public void createAndDisplayGUI()
    
         
         ImageIcon BSImage = new ImageIcon("New battleship.jpg");
-        JLabel BSPic = new JLabel(ACImage);
+        final JLabel BSPic = new JLabel(ACImage);
         BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
         //BSPic.setBounds(1165,115,180,20);
         contentPane.add(BSPic);
      
         
         ImageIcon SUBImage = new ImageIcon("New Submarine.jpg");
-        JLabel SUBPic = new JLabel(SUBImage);
+        final JLabel SUBPic = new JLabel(SUBImage);
         SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //SUBPic.setBounds(1160,165,130,20);
         contentPane.add(SUBPic);
         
         
         ImageIcon CImage = new ImageIcon("New Cruiser.jpg");
-        JLabel CPic = new JLabel(CImage);
+        final JLabel CPic = new JLabel(CImage);
         CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //CPic.setBounds(1165,215,130,20);
         contentPane.add(CPic);
         
         ImageIcon DImage = new ImageIcon("New Destroyer.jpg");
-        JLabel DPic = new JLabel(DImage);
+        final JLabel DPic = new JLabel(DImage);
         DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
         //DPic.setBounds(1165,270,75,20);
         contentPane.add(DPic);
@@ -193,7 +193,7 @@ public void createAndDisplayGUI()
         
         //Home ships grid
 		
-        JPanel ShipsPanel = new JPanel();
+        final JPanel ShipsPanel = new JPanel();
 		ShipsPanel.setBounds(1150,50,500,500);
 		
 		
@@ -318,7 +318,7 @@ public void createAndDisplayGUI()
 
         
         //Chat
-		 JPanel ChatBox = displayChat();
+		 final JPanel ChatBox = displayChat();
 		ChatBox.setBounds(25,490,400,100);
 		ChatBox.setVisible(false);
 		ChatBox.setOpaque(false);
@@ -1701,7 +1701,7 @@ public static void Reset(Integer[] Coor, int x){
 
 
 public JPanel displayChat() {
-	    JTextField  messageField;
+	    final JTextField  messageField;
 	
 	
     JPanel ChatBox = new JPanel();
