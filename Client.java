@@ -25,7 +25,7 @@ public class Client {
 	public static void main(String[] args) throws Exception {// run
 		System.out.println("Connecting...");// connecting
 		Thread.sleep(1000);
-		socket = new Socket("localhost", 3389);// 104.196.169.95/sets socket to
+		socket = new Socket("104.196.169.95", 3389);// 104.196.169.95/sets socket to
 												// ipaddress and port
 		System.out.println("Connection Successful");// print it connected
 		Thread.sleep(1000);

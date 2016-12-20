@@ -129,32 +129,45 @@ public class HomeScreen extends JFrame {
 				
 			}
 			
+	
+	public void GameStartEventtttt(){
+		GameStart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent enter) {
+				
+				File file = new File("loggedinplayers");
+
+				try {
+				    Scanner scanner = new Scanner(file);
+				    int lineNum = 0;
+				    while (scanner.hasNextLine()) {
+				        scanner.nextLine();
+				        lineNum++;
+				        }
+				    scanner.close();
+				    if(lineNum > 1){							
+				    	GameEngine.main(null);
+				    	dispose();
+				    }else{
+				    JOptionPane.showMessageDialog(null,"Waiting For Opponent To Connect...","Connecting...", 1);
+				    }
+				    
+				}catch(FileNotFoundException e) { 
+				    //handle this
+				}	
+		}
+		
+	});
+}
+	
 		
 				public void GameStartEvent(){
 					GameStart.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent enter) {
-							
-							File file = new File("loggedinplayers");
-
-							try {
-							    Scanner scanner = new Scanner(file);
-							    int lineNum = 0;
-							    while (scanner.hasNextLine()) {
-							        scanner.nextLine();
-							        lineNum++;
-							        }
-							    scanner.close();
-							    if(lineNum > 1){							
+											
 							    	GameEngine.main(null);
 							    	dispose();
-							    }else{
-							    JOptionPane.showMessageDialog(null,"Waiting For Opponent To Connect...","Connecting...", 1);
-							    }
-							    
-							}catch(FileNotFoundException e) { 
-							    //handle this
-							}	
-					}
+								
+						}
 					
 				});
 			}

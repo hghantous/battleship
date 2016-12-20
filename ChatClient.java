@@ -9,7 +9,7 @@ public class ChatClient {
 	
 public static void main(String[] args) throws Exception{//run
 	System.out.println("Connecting...");//connecting
-	socket = new Socket("localhost",3390);//sets socket to ip address and port
+	socket = new Socket("104.196.169.95",3390);//sets socket to ip address and port
 	System.out.println("Connection Successful");//print it connected
 	in = new DataInputStream(socket.getInputStream());//get input 
 	out = new DataOutputStream(socket.getOutputStream());//send output
